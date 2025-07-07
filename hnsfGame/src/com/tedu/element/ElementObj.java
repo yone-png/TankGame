@@ -40,6 +40,7 @@ public abstract class ElementObj {
 		this.icon = icon;
 	}
 	/**
+	 *hhjjjj
 	 * @说明 抽象方法，显示元素
 	 * @param g  画笔 用于进行绘画
 	 */
