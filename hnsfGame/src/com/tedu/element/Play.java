@@ -256,8 +256,8 @@ public class Play extends ElementObj{
 	public void onCollision(ElementObj other) {
 		if (other instanceof MapObj) {
 	        // 碰撞后回退位置
-	        this.setX(this.getX() - (left ? -2 : (right ? 2 : 0)));
-	        this.setY(this.getY() - (up ? -2 : (down ? 2 : 0)));
+	        this.setX(this.getX() - (left ? -3 : (right ? 3 : 0)));
+	        this.setY(this.getY() - (up ? -3 : (down ? 3 : 0)));
 	    }
 		if(other instanceof Enemy) {
 			this.setLive(false);
