@@ -128,6 +128,9 @@ public class Play extends ElementObj{
 	 */		
 	private long filetime=0;
 //	filetime 和传入的时间gameTime进行比较，赋值等操作运算，控制子弹间隔
+	
+	
+	
 	@Override	//添加子弹
 	public void add(long gameTime) {//时间可以进行控制
 		if(!this.pkType) {//如果是不发射状态直接return
@@ -149,11 +152,11 @@ public class Play extends ElementObj{
 		int x=this.getX();
 		int y=this.getY();
 		switch(this.fx) { //子弹再发射时候就已经给予固定的轨迹。可以加上目标，修改json格式
-		case "up":x+=this.getIcon().getIconWidth()*3/8;break;
+		case "up":x+=this.getIcon().getIconWidth()*3/8-2;y-=10;break;
 		//一般不会写20等数值，一般情况下图片大小就是显示大小；一般情况用图片大小参与运算
-		case "left":y+=this.getIcon().getIconHeight()*2/5;break;
-		case "right":x+=this.getIcon().getIconWidth();y+=this.getIcon().getIconHeight()*2/5;break;
-		case "down":y+=this.getIcon().getIconHeight();x+=this.getIcon().getIconWidth()*2/5;break;
+		case "left":y+=this.getIcon().getIconHeight()*2/5;x-=10;break;
+		case "right":x+=this.getIcon().getIconWidth()+5;y+=this.getIcon().getIconHeight()*2/5;break;
+		case "down":y+=this.getIcon().getIconHeight()+5;x+=this.getIcon().getIconWidth()*2/5;break;
 		}
 //		传递一个固定格式 {x:3,y:5,f:up} json格式
 		return "x:"+x+",y:"+y+",f:"+this.fx;
