@@ -158,6 +158,19 @@ public class Boss extends ElementObj {
         }
        
     }
+    public void setMaxHp(int level)
+    {
+    	this.maxHp=level;
+    	this.currentHp = maxHp;
+    }
+    
+    public int getMaxHp()
+    {
+    	return this.maxHp;
+    }
+    public void setCurrentHp(int currentHp) {
+        this.currentHp = currentHp;
+    }
     
     public String toString(int k) {
     	int x=this.getX();

@@ -12,25 +12,28 @@ public class GameHomePage extends JPanel {
     private int playerCount = 1; // 默认单人模式
     
     public GameHomePage(JFrame frame) {
-        this.frame = frame;
-        setLayout(null); // 使用绝对布局
+    	this.frame = frame;
+        setLayout(new BorderLayout());
         
-        // 添加背景
+        // 分层面板解决背景覆盖问题
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(GameJFrame.GameX, GameJFrame.GameY));
+        
+        // 背景图
         ImageIcon background = new ImageIcon("image/icon.png");
         JLabel bgLabel = new JLabel(background);
         bgLabel.setBounds(0, 0, GameJFrame.GameX, GameJFrame.GameY);
-        add(bgLabel);
+        layeredPane.add(bgLabel, JLayeredPane.DEFAULT_LAYER);
         
-        // 创建按钮 - 确保按钮在背景上方
-        JButton singlePlayerBtn = createButton("单人模式", 250, 400);
-        JButton dualPlayerBtn = createButton("双人模式", 400, 400);
+        // 按钮面板（居中）
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
+        buttonPanel.setBounds(0, 400, GameJFrame.GameX, 100);
         
-        // 添加按钮到面板（在背景之后添加，确保按钮在上层）
-        add(dualPlayerBtn);
-        add(singlePlayerBtn);
+        JButton singlePlayerBtn = createButton("单人模式");
+        JButton dualPlayerBtn = createButton("双人模式");
         
-        
-        // 添加按钮监听
         singlePlayerBtn.addActionListener(e -> {
             playerCount = 1;
             startGame();
@@ -40,16 +43,22 @@ public class GameHomePage extends JPanel {
             playerCount = 2;
             startGame();
         });
+        
+        buttonPanel.add(singlePlayerBtn);
+        buttonPanel.add(dualPlayerBtn);
+        layeredPane.add(buttonPanel, JLayeredPane.PALETTE_LAYER);
+        
+        add(layeredPane, BorderLayout.CENTER);
     }
     
-    private JButton createButton(String text, int x, int y) {
+    private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.setBounds(x, y, 150, 50);
+        button.setPreferredSize(new Dimension(150, 50));
         button.setFont(new Font("宋体", Font.BOLD, 20));
         button.setBackground(new Color(70, 130, 180));
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
-        button.setOpaque(true); // 确保按钮不透明
+        button.setBorder(BorderFactory.createRaisedBevelBorder());
         return button;
     }
     

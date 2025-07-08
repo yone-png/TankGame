@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.swing.ImageIcon;
 
+import com.tedu.element.Boss;
 import com.tedu.element.ElementObj;
 import com.tedu.element.MapObj;
 import com.tedu.element.Play;
@@ -116,28 +117,38 @@ public class GameLoad {
 	    }
 	}
 	//加载敌人npc
-	public static void loadEnemy() {
-		loadObj();
-		Random ra = new Random();
-		for(int i=0;i<5;i++) {
-			ElementObj obj=getObj("enemy");
-			int x = ra.nextInt(600);
-			int y = ra.nextInt(200);
-			ElementObj enemy=obj.creatElement(""+x+","+y+",edown");
-			em.addElement(enemy, GameElement.ENEMY);
-		}
-		
-	}
+	public static void loadEnemy(int level) {
+        loadObj();
+        Random ra = new Random();
+        int enemyCount = 3 + level; // 根据关卡增加敌人数量
+        
+        for (int i = 0; i < enemyCount; i++) {
+            ElementObj obj = getObj("enemy");
+            int x = ra.nextInt(600);
+            int y = ra.nextInt(200);
+            ElementObj enemy = obj.creatElement("" + x + "," + y + ",edown");
+            em.addElement(enemy, GameElement.ENEMY);
+        }
+    }
 	
-	public static void loadBoss() {
-		loadObj();
-		Random ra = new Random();
-		ElementObj obj=getObj("boss");
-		int x = ra.nextInt(600);
-		int y = ra.nextInt(200);
-		ElementObj boss=obj.creatElement(""+x+","+y+",boss");
-		em.addElement(boss, GameElement.BOSS);
-	}
+	 public static void loadBoss(int level) {
+	        loadObj();
+	        Random ra = new Random();
+	        
+	        if (level >= 3) { // 从第三关开始出现BOSS
+	            ElementObj obj = getObj("boss");
+	            int x = ra.nextInt(600);
+	            int y = ra.nextInt(200);
+	            ElementObj boss = obj.creatElement("" + x + "," + y + ",boss");
+	            
+	            // 根据关卡增强BOSS
+	            Boss bossObj = (Boss) boss;
+	            bossObj.setMaxHp(20 + (level - 3) * 10);
+	            bossObj.setCurrentHp(bossObj.getMaxHp());
+	            
+	            em.addElement(boss, GameElement.BOSS);
+	        }
+	    }
 		
 	
 	public static ElementObj getObj(String str) {

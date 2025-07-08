@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.tedu.element.ElementObj;
@@ -22,27 +23,75 @@ import com.tedu.manager.GameLoad;
 public class GameThread  extends Thread{
 	private ElementManager em;
 	private int playerCount;
+	 private boolean paused = false;
+	 private int currentLevel = 1;
+	 private boolean running = true;
+	 private static final int MAX_LEVEL = 5; // 最大关卡数
 	
 	public GameThread(int playerCount) {
 		em=ElementManager.getManager();
 		this.playerCount=playerCount;
 	}
+	
+	 public boolean isPaused() {
+	        return paused;
+	    }
+	    
+	    public void togglePause() {
+	        paused = !paused;
+	    }
+	    
+	    public void stopGame() {
+	        running = false;
+	    }
+	    
+	    public int getCurrentLevel() {
+	        return currentLevel;
+	    }
+	    
+	    public void loadPrevLevel() {
+	        if (currentLevel > 1) {
+	            currentLevel--;
+	            resetGame();
+	        } else {
+	            JOptionPane.showMessageDialog(null, "已经是第一关了！", "提示", JOptionPane.INFORMATION_MESSAGE);
+	        }
+	    }
+	    
+	    public void loadNextLevel() {
+	        if (currentLevel < MAX_LEVEL) {
+	            currentLevel++;
+	            resetGame();
+	        } else {
+	            JOptionPane.showMessageDialog(null, "恭喜通关！这是最后一关。", "提示", JOptionPane.INFORMATION_MESSAGE);
+	        }
+	    }
+	    
+	    private void resetGame() {
+	        // 清除所有元素
+	        em.getGameElements().values().forEach(List::clear);
+	        
+	        // 重新加载游戏
+	        gameLoad();
+	        
+	        // 提示关卡信息
+	        JOptionPane.showMessageDialog(null, "第 " + currentLevel + " 关", "关卡切换", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	
 	@Override
 	public void run() {//游戏的run方法 主线程
-		while(true) {
-		//游戏开始前 读进度条，加载游戏资源（场景资源）
-			gameLoad();
-		//游戏进行时 游戏过程中
-			gameRun();
-		//游戏场景结束 游戏资源回收（场景资源）
-			gameOver();
-			try {
-				sleep(10);
-			} catch (InterruptedException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
-			}
-		}
+		while (running) {
+            if (!paused) {
+                gameLoad();
+                gameRun();
+                gameOver();
+            }
+            try {
+                sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 		
 	}
 	/**
@@ -50,14 +99,11 @@ public class GameThread  extends Thread{
 	 */
 	// 修改 gameLoad 方法
 	private void gameLoad() {
-	    GameLoad.loadImg();
-	    GameLoad.MapLoad(3); // 加载地图
-	    GameLoad.loadPlay(playerCount);
-
-	    
-	    // 加载敌人NPC等
-	    GameLoad.loadEnemy();
-	    GameLoad.loadBoss();
+		GameLoad.loadImg();
+        GameLoad.MapLoad(currentLevel);
+        GameLoad.loadPlay(playerCount);
+        GameLoad.loadEnemy(currentLevel);
+        GameLoad.loadBoss(currentLevel);
 	}
 	/**
 	 * @说明 游戏进行时
@@ -68,7 +114,7 @@ public class GameThread  extends Thread{
 	 */
 	private void gameRun() {
 		long gameTime=0L;//给int类型就可以了
-		while(true) {//预留扩展true可以变为变量，用于控制关卡结束等
+		while(running && !paused) {//预留扩展true可以变为变量，用于控制关卡结束等
 			Map<GameElement, List<ElementObj>> all = em.getGameElements();
 			List<ElementObj> enemys=em.getElementsByKey(GameElement.ENEMY);
 			List<ElementObj> files=em.getElementsByKey(GameElement.PLAYFILE);
