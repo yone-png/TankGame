@@ -147,6 +147,14 @@ public class Play extends ElementObj{
 //		如果要控制子弹速度等等，还需要代码编写
 		
 	}
+
+	@Override
+	public void die() {
+		ElementObj obj=GameLoad.getObj("die");
+		ElementObj element =obj.creatElement(""+this.getX()+","+this.getY()+",die");
+		ElementManager.getManager().addElement(element, GameElement.DIE);
+	}
+	
 	@Override
 	public String toString() {//这里是偷懒直接使用toString,建议自己定义一个方法
 		int x=this.getX();
