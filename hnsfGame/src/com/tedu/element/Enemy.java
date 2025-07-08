@@ -18,7 +18,7 @@ public class Enemy extends ElementObj{
 	private String fx="edown";
 	private long lastMoveTime = 0;
 	private long lastShotTime = 0;
-	private static final int Mdis = 100; // 移动间隔(毫秒)
+	private static final int Mdis = 10; // 移动间隔(毫秒)
 	private static final int Sdis = 200; // 射击间隔(毫秒)
 
 	    
@@ -50,13 +50,12 @@ public class Enemy extends ElementObj{
 		return this;
 	}
 	
-//	@Override
-//	public void die() {
-//		ElementManager em=ElementManager.getManager();
-//		ImageIcon icon=new ImageIcon("image/tank/play2/player2_up.png");
-//		ElementObj obj=new Enemy();//实例化对象
-//		em.addElement(obj,GameElement.DIE);//直接添加
-//	}
+	@Override
+	public void die() {
+		ElementObj obj=GameLoad.getObj("die");
+		ElementObj element =obj.creatElement(""+this.getX()+","+this.getY()+",die");
+		ElementManager.getManager().addElement(element, GameElement.DIE);
+	}
 		
 	
 		private Random rand = new Random();
@@ -102,11 +101,11 @@ public class Enemy extends ElementObj{
 			int x=this.getX();
 			int y=this.getY();
 			switch(this.fx) { //子弹再发射时候就已经给予固定的轨迹。可以加上目标，修改json格式
-			case "eup":x+=this.getIcon().getIconWidth()*3/8;break;
+			case "eup":x+=this.getIcon().getIconWidth()*3/8-2;y-=10;break;
 			//一般不会写20等数值，一般情况下图片大小就是显示大小；一般情况用图片大小参与运算
-			case "eleft":y+=this.getIcon().getIconHeight()*2/5;break;
-			case "eright":x+=this.getIcon().getIconWidth();y+=this.getIcon().getIconHeight()*2/5;break;
-			case "edown":y+=this.getIcon().getIconHeight();x+=this.getIcon().getIconWidth()*2/5;break;
+			case "eleft":y+=this.getIcon().getIconHeight()*2/5;x-=10;break;
+			case "eright":x+=this.getIcon().getIconWidth()+5;y+=this.getIcon().getIconHeight()*2/5;break;
+			case "edown":y+=this.getIcon().getIconHeight()+5;x+=this.getIcon().getIconWidth()*2/5;break;
 			}
 			return "x:"+x+",y:"+y+",f:"+this.fx;
 		}
