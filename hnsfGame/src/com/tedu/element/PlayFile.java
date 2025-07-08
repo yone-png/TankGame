@@ -19,6 +19,14 @@ public class PlayFile extends ElementObj{
 	private int attack=1;//攻击力
 	private int moveNum=3;//移动速度值
 	private String fx;
+	private int playerId=1; //子弹所属玩家
+	public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+    
+    public int getPlayerId() {
+        return playerId;
+    }
 	//剩下的扩展；可以扩展出多种子弹：激光，导弹等。（玩家类需要由子弹类型）
 	
 	public PlayFile() {}//一个空的默认构造方法
@@ -42,8 +50,12 @@ public class PlayFile extends ElementObj{
 	
 	@Override
 	public void showElement(Graphics g) {
-		int x=this.getX();
-		g.setColor(Color.red);//new Color(255,255,255)
+		// 根据玩家设置不同颜色
+        if(playerId == 1) {
+            g.setColor(Color.RED);
+        } else {
+            g.setColor(Color.GREEN);
+        }
 		g.fillOval(this.getX(), this.getY(), this.getW(), this.getH());
 	}
 
@@ -78,6 +90,13 @@ public class PlayFile extends ElementObj{
 		if(other instanceof Enemy) {
 			this.setLive(false);
 		}
+		 // 玩家子弹不伤害自己
+        if(other instanceof Play) {
+            Play player = (Play)other;
+            if(player.getPlayerId() != this.playerId) {
+                this.setLive(false);
+            }
+        }
 	}
 	
 	
