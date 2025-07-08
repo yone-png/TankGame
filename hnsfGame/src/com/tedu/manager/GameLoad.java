@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -106,9 +107,12 @@ public class GameLoad {
 	//加载敌人npc
 	public static void loadEnemy() {
 		loadObj();
-		for(int i=0;i<3;i++) {
+		Random ra = new Random();
+		for(int i=0;i<5;i++) {
 			ElementObj obj=getObj("enemy");
-			ElementObj enemy=obj.creatElement("");
+			int x = ra.nextInt(600);
+			int y = ra.nextInt(200);
+			ElementObj enemy=obj.creatElement(""+x+","+y+",edown");
 			em.addElement(enemy, GameElement.ENEMY);
 		}
 		

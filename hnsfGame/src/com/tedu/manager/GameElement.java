@@ -9,5 +9,5 @@ public enum GameElement {
 	 * PLAYFILE 子弹
 	 * ....
 	 */
-	MAPS,PLAY,ENEMY,BOSS,PLAYFILE,DIE;  //枚举类型的顺序是声明的顺序
+	MAPS,PLAYFILE,PLAY,ENEMY,BOSS,DIE;  //枚举类型的顺序是声明的顺序
 }

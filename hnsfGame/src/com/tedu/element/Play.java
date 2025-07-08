@@ -101,7 +101,7 @@ public class Play extends ElementObj{
 	}
 	
 	@Override
-	public void move() {
+	public void move(long gametime) {
 		if(this.left && this.getX()>0) {
 			this.setX(this.getX()-2);
 		}
@@ -168,6 +168,9 @@ public class Play extends ElementObj{
 	        this.setY(this.getY() - (up ? -2 : (down ? 2 : 0)));
 	    }
 		if(other instanceof Enemy) {
+			this.setLive(false);
+		}
+		if(other instanceof PlayFile) {
 			this.setLive(false);
 		}
 	}

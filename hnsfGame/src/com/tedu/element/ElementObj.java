@@ -40,6 +40,7 @@ public abstract class ElementObj {
 		this.icon = icon;
 	}
 	/**
+	 *hhjjjj
 	 * @说明 抽象方法，显示元素
 	 * @param g  画笔 用于进行绘画
 	 */
@@ -58,8 +59,9 @@ public abstract class ElementObj {
 	/**
 	 * @说明 移动方法，需要移动的子类，请重写这个方法
 	 */
-	protected void move() {
+	protected void move(long gameTime) {
 	}
+	
 	/**
 	 * @设计模式 模板模式；在模板模式中定义对象执行方法的先后顺序，由子类选择性重写方法
 	 * 					1.移动 2.换装 3.子弹发射
@@ -67,10 +69,12 @@ public abstract class ElementObj {
 	public final void model(long gameTime) {
 		//先换装
 		updateImage();
-		//再移动
-		move();
 		//再发射子弹
 		add(gameTime);
+		//再移动
+		move(gameTime);
+		
+		
 	}
 	//long ... aaa,不定长的数组，可以向这个方法传输N个long类型的数据
 	protected void updateImage() {};

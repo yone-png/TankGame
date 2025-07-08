@@ -33,7 +33,7 @@ public class GameThread  extends Thread{
 		//游戏场景结束 游戏资源回收（场景资源）
 			gameOver();
 			try {
-				sleep(50);
+				sleep(10);
 			} catch (InterruptedException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
@@ -70,29 +70,12 @@ public class GameThread  extends Thread{
 			List<ElementObj> plays=em.getElementsByKey(GameElement.PLAY);
 			moveAndUpdate(all, gameTime); //游戏元素自动化方法
 			
-			// 玩家坦克 vs 墙体
-	        for (ElementObj play : plays) {
-	            for (ElementObj map : maps) {
-	                if (play.pk(map)) {
-	                    play.onCollision(map);
-	                    map.onCollision(play);
-	                }
-	            }
-	        }
-	        
-	        // 敌人 vs 墙体
-	        for (ElementObj enemy : enemys) {
-	            for (ElementObj map : maps) {
-	                if (enemy.pk(map)) {
-	                    enemy.onCollision(map);
-	                    map.onCollision(enemy);
-	                }
-	            }
-	        }
-			
 			ElementPK(plays, enemys);
+			ElementPK(enemys, maps);
 			ElementPK(enemys,files);
+			ElementPK(plays, files);
 			ElementPK(files,maps);
+			ElementPK(plays, maps);
 			
 			gameTime++;//唯一的时间控制
 			try {

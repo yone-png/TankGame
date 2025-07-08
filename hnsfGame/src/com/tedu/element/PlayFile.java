@@ -48,17 +48,23 @@ public class PlayFile extends ElementObj{
 	}
 
 	@Override
-	protected void move() {
+	protected void move(long gametime) {
 		if(this.getX()<0 || this.getX()>900  ||this.getY()<0 ||this.getY()>600) {
 			this.setLive(false);
 			return;
 		}
 		switch(this.fx) {
+		case "eup":this.setY(this.getY()-this.moveNum);break;
+		case "eleft":this.setX(this.getX()-this.moveNum);break;
+		case "eright":this.setX(this.getX()+this.moveNum);break;
+		case "edown":this.setY(this.getY()+this.moveNum);break;
+		
 		case "up":this.setY(this.getY()-this.moveNum);break;
 		case "left":this.setX(this.getX()-this.moveNum);break;
 		case "right":this.setX(this.getX()+this.moveNum);break;
 		case "down":this.setY(this.getY()+this.moveNum);break;
 		}
+
 	}
 	/**
 	 * 对于子弹来说：1.出边界 2.碰撞 3.玩家放保险
