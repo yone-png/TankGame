@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import com.tedu.element.ElementObj;
 import com.tedu.element.Enemy;
@@ -20,8 +21,11 @@ import com.tedu.manager.GameLoad;
 
 public class GameThread  extends Thread{
 	private ElementManager em;
-	public GameThread() {
+	private int playerCount;
+	
+	public GameThread(int playerCount) {
 		em=ElementManager.getManager();
+		this.playerCount=playerCount;
 	}
 	@Override
 	public void run() {//游戏的run方法 主线程
@@ -44,15 +48,16 @@ public class GameThread  extends Thread{
 	/**
 	 * 游戏的加载
 	 */
+	// 修改 gameLoad 方法
 	private void gameLoad() {
-		GameLoad.loadImg();
-		GameLoad.MapLoad(3); //可以变为变量，每一关重新加载 加载地图
-		//加载主角
-		GameLoad.loadPlay();//也可以带参数，单机还是2人
-		//加载敌人NPC等
-		GameLoad.loadEnemy();
-		GameLoad.loadBoss();
-		//全部加载完，游戏启动
+	    GameLoad.loadImg();
+	    GameLoad.MapLoad(3); // 加载地图
+	    GameLoad.loadPlay(playerCount);
+
+	    
+	    // 加载敌人NPC等
+	    GameLoad.loadEnemy();
+	    GameLoad.loadBoss();
 	}
 	/**
 	 * @说明 游戏进行时
@@ -114,8 +119,7 @@ public class GameThread  extends Thread{
 			}
 		}
 	}
-	
-	
+
 	//游戏元素自动化方法
 	public void moveAndUpdate(Map<GameElement, List<ElementObj>> all,long gameTime) {
 //		GameElement.values();

@@ -26,6 +26,7 @@ public class GameJFrame extends JFrame{
 	private MouseMotionListener mouseMotionListener=null; //鼠标监听
 	private MouseListener mouseListener=null;
 	private Thread thead=null;  //游戏主线程
+	private int playerCount = 1;
 	
 	public GameJFrame() {
 		init();
@@ -60,6 +61,14 @@ public class GameJFrame extends JFrame{
 			//强制类型判定。转换不会出错
 			new Thread((Runnable)this.jPanel).start();
 		}
+	}
+
+	public void setPlayerCount(int playerCount) {
+	    this.playerCount = playerCount;
+	}
+
+	public int getPlayerCount() {
+	    return playerCount;
 	}
 	
 	

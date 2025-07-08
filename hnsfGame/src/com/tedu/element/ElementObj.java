@@ -70,10 +70,11 @@ public abstract class ElementObj {
 	public final void model(long gameTime) {
 		//先换装
 		updateImage();
+		move(gameTime);
 		//再发射子弹
 		add(gameTime);
 		//再移动
-		move(gameTime);
+		
 		
 		
 	}

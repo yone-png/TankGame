@@ -95,22 +95,26 @@ public class GameLoad {
 	/**
 	 * 加载玩家
 	 */
-	public static void loadPlay() {
-		loadObj();
-		// 玩家1
-        String play1Str = "500,500,up";
-        ElementObj obj1 = getObj("play");
-        Play player1 = (Play)obj1.creatElement(play1Str);
-        player1.setPlayerId(1); // 设置玩家ID
-        em.addElement(player1, GameElement.PLAY);
-        
-        // 玩家2
-        String play2Str = "100,500,up";
-        ElementObj obj2 = getObj("play2");
-        Play player2 = (Play)obj2.creatElement(play2Str);
-        player2.setPlayerId(2); // 设置玩家ID
-        em.addElement(player2, GameElement.PLAY);
-    }
+	// 修改 loadPlay 方法
+	public static void loadPlay(int playerCount) {
+	    loadObj();
+	    
+	    // 玩家1始终加载
+	    String play1Str = "500,500,up";
+	    ElementObj obj1 = getObj("play");
+	    Play player1 = (Play) obj1.creatElement(play1Str);
+	    player1.setPlayerId(1);
+	    em.addElement(player1, GameElement.PLAY);
+	    
+	    // 根据玩家数量决定是否加载玩家2
+	    if (playerCount > 1) {
+	        String play2Str = "100,500,up";
+	        ElementObj obj2 = getObj("play2");
+	        Play player2 = (Play) obj2.creatElement(play2Str);
+	        player2.setPlayerId(2);
+	        em.addElement(player2, GameElement.PLAY);
+	    }
+	}
 	//加载敌人npc
 	public static void loadEnemy() {
 		loadObj();
