@@ -69,6 +69,10 @@ public class MapObj extends ElementObj{
 		       other.setLive(true);
 		    }
 		
+		if (other instanceof Boss && !"RIVER".equals(name)) {
+		       this.setLive(false);
+		    }
+		
 	}
 	
 	

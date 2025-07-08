@@ -125,6 +125,17 @@ public class GameLoad {
 		
 	}
 	
+	public static void loadBoss() {
+		loadObj();
+		Random ra = new Random();
+		ElementObj obj=getObj("boss");
+		int x = ra.nextInt(600);
+		int y = ra.nextInt(200);
+		ElementObj boss=obj.creatElement(""+x+","+y+",boss");
+		em.addElement(boss, GameElement.BOSS);
+	}
+		
+	
 	public static ElementObj getObj(String str) {
 		try {
 			Class<?> class1=objMap.get(str);

@@ -16,7 +16,6 @@ import com.tedu.manager.GameElement;
  * 	3.思考并定义子类特有的属性
  */
 public class PlayFile extends ElementObj{
-	private int attack=1;//攻击力
 	private int moveNum=3;//移动速度值
 	private String fx;
 	private int playerId=1; //子弹所属玩家
@@ -43,6 +42,7 @@ public class PlayFile extends ElementObj{
 			//子弹速度过快需要解决
 			}
 		}
+		this.setAttack(1);
 		this.setW(10);
 		this.setH(10);
 		return this;
@@ -98,7 +98,6 @@ public class PlayFile extends ElementObj{
             }
         }
 	}
-	
 	
 	
 //	@Override

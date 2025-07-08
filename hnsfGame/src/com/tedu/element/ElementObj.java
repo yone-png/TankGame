@@ -16,6 +16,7 @@ public abstract class ElementObj {
 	private int w;
 	private int h;
 	private ImageIcon icon;
+	private int attack=0;
 //	还有。。。。 各种必要的状态值，例如：是否生存.
 	private boolean live=true;//生存状态true存在，false死亡
 							//可以采用枚举值来定义这个（生存，死亡，隐身，无敌）
@@ -154,7 +155,12 @@ public abstract class ElementObj {
 	public void setLive(boolean live) {
 		this.live = live;
 	}
-
+	public int getAttack() {
+		return attack;
+	}
+	public void setAttack(int attack) {
+		this.attack=attack;
+	}
 	
 	
 	

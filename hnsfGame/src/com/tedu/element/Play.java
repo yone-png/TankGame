@@ -177,16 +177,16 @@ public class Play extends ElementObj{
 	@Override
 	public void move(long gametime) {
 		if(this.left && this.getX()>0) {
-			this.setX(this.getX()-2);
+			this.setX(this.getX()-3);
 		}
 		if(this.up && this.getY()>0) {
-			this.setY(this.getY()-2);
+			this.setY(this.getY()-3);
 		}
 		if(this.right && this.getX()<900-this.getW()-15) {
-			this.setX(this.getX()+2);
+			this.setX(this.getX()+3);
 		}
 		if(this.down && this.getY()<600-this.getH()-35) {
-			this.setY(this.getY()+2);
+			this.setY(this.getY()+3);
 		}
 	}
 	@Override

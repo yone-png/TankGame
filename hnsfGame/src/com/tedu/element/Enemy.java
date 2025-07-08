@@ -123,13 +123,13 @@ public class Enemy extends ElementObj{
 				updateDirection();
 		        
 		        // 根据方向移动
-		        if (eleft) {
+		        if (eleft && this.getX()>0) {
 		            this.setX(this.getX() - 2);
-		        } else if (eright) {
+		        } else if (eright && this.getX()<900-this.getW()-15) {
 		            this.setX(this.getX() + 2);
-		        } else if (eup) {
+		        } else if (eup && this.getY()>0) {
 		            this.setY(this.getY() - 2);
-		        } else if (edown) {
+		        } else if (edown && this.getY()<600-this.getH()-35) {
 		            this.setY(this.getY() + 2);
 		        }
 		        

@@ -51,6 +51,7 @@ public class GameThread  extends Thread{
 		GameLoad.loadPlay();//也可以带参数，单机还是2人
 		//加载敌人NPC等
 		GameLoad.loadEnemy();
+		GameLoad.loadBoss();
 		//全部加载完，游戏启动
 	}
 	/**
@@ -68,6 +69,7 @@ public class GameThread  extends Thread{
 			List<ElementObj> files=em.getElementsByKey(GameElement.PLAYFILE);
 			List<ElementObj> maps=em.getElementsByKey(GameElement.MAPS);
 			List<ElementObj> plays=em.getElementsByKey(GameElement.PLAY);
+			List<ElementObj> bosses=em.getElementsByKey(GameElement.BOSS);
 			moveAndUpdate(all, gameTime); //游戏元素自动化方法
 			
 			ElementPK(plays, enemys);
@@ -76,6 +78,10 @@ public class GameThread  extends Thread{
 			ElementPK(plays, files);
 			ElementPK(files,maps);
 			ElementPK(plays, maps);
+			
+			ElementPK(bosses, files);
+			ElementPK(bosses, maps);
+			ElementPK(bosses, plays);
 			
 			gameTime++;//唯一的时间控制
 			try {
