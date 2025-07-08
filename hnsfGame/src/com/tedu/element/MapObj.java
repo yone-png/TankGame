@@ -68,6 +68,7 @@ public class MapObj extends ElementObj{
 		if (other instanceof PlayFile && "RIVER".equals(name)) {
 		       other.setLive(true);
 		    }
+		
 	}
 	
 	
