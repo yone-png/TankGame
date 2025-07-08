@@ -1,6 +1,7 @@
 package com.tedu.element;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.text.BreakIterator;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,14 +36,35 @@ public class Play extends ElementObj{
 	private String fx="up";
 	private boolean pkType=false;//攻击状态true攻击false停止 
 	
+	private int playerId=1; //玩家ID，1为玩家1，2为玩家2
+	
 	public Play() {}
+	
+	public Play(int playerId) {
+        this.playerId = playerId;
+    }
+	
+    
+    public void setPlayerId(int playerId) {
+		this.playerId = playerId;
+	}
+
+	public int getPlayerId() {
+        return playerId;
+    }
+
 	
 	@Override
 	public ElementObj creatElement(String str) {
 		String[] split=str.split(",");
 		this.setX(Integer.parseInt(split[0]));
 		this.setY(Integer.parseInt(split[1]));
-		ImageIcon icon2=GameLoad.imgMap.get(split[2]);
+		//根据玩家ID选择图片
+		String imageKey=split[2];
+		if(playerId==2) {
+			imageKey+="2";
+		}
+		ImageIcon icon2=GameLoad.imgMap.get(imageKey);
 		this.setW(icon2.getIconWidth());
 		this.setH(icon2.getIconHeight());
 		this.setIcon(icon2);
@@ -68,37 +90,89 @@ public class Play extends ElementObj{
 	public void keyClick(boolean b1,int key) {
 //		System.out.println("测试"+key);
 		if(b1) {
-			switch(key) {
-			case 37:
-				this.up=false;this.down=false;
-				this.right=false;this.left=true;
-				this.fx="left";break;
-			case 38:
-				this.right=false;this.left=false;
-				this.down=false;this.up=true;
-				this.fx="up";break;
-			case 39:
-				this.up=false;this.down=false;
-				this.left=false;this.right=true;	
-				this.fx="right";break;
-			case 40:
-				this.right=false;this.left=false;
-				this.up=false;this.down=true;		
-				this.fx="down";break;
-			case 32:
-				this.pkType=true;break;
-			}
-		}else {
-			switch(key) {
-			case 37:this.left=false;	break;
-			case 38:this.up=false;		break;
-			case 39:this.right=false;	break;
-			case 40:this.down=false;	break;
-			case 32:this.pkType=false;	break;
-			}
-		}
+            // 玩家1控制
+            if(playerId == 1) {
+                handlePlayer1KeyPress(key);
+            } 
+            // 玩家2控制
+            else if(playerId == 2) {
+                handlePlayer2KeyPress(key);
+            }
+        } else {
+            handleKeyRelease(key);
+        }
 
 	}
+	
+	private void handlePlayer1KeyPress(int key) {
+        switch(key) {
+            case KeyEvent.VK_LEFT:
+                this.up = false; this.down = false;
+                this.right = false; this.left = true;
+                this.fx = "left"; break;
+            case KeyEvent.VK_UP:
+                this.right = false; this.left = false;
+                this.down = false; this.up = true;
+                this.fx = "up"; break;
+            case KeyEvent.VK_RIGHT:
+                this.up = false; this.down = false;
+                this.left = false; this.right = true;    
+                this.fx = "right"; break;
+            case KeyEvent.VK_DOWN:
+                this.right = false; this.left = false;
+                this.up = false; this.down = true;        
+                this.fx = "down"; break;
+            case KeyEvent.VK_SPACE:
+                this.pkType = true; break;
+        }
+    }
+    
+    private void handlePlayer2KeyPress(int key) {
+        switch(key) {
+            case KeyEvent.VK_A: // A键
+                this.up = false; this.down = false;
+                this.right = false; this.left = true;
+                this.fx = "left"; break;
+            case KeyEvent.VK_W: // W键
+                this.right = false; this.left = false;
+                this.down = false; this.up = true;
+                this.fx = "up"; break;
+            case KeyEvent.VK_D: // D键
+                this.up = false; this.down = false;
+                this.left = false; this.right = true;    
+                this.fx = "right"; break;
+            case KeyEvent.VK_S: // S键
+                this.right = false; this.left = false;
+                this.up = false; this.down = true;        
+                this.fx = "down"; break;
+            case KeyEvent.VK_F: // F键
+                this.pkType = true; break;
+        }
+    }
+    private void handleKeyRelease(int key) {
+        // 玩家1按键释放
+        if(playerId == 1) {
+            switch(key) {
+                case KeyEvent.VK_LEFT: this.left = false; break;
+                case KeyEvent.VK_UP: this.up = false; break;
+                case KeyEvent.VK_RIGHT: this.right = false; break;
+                case KeyEvent.VK_DOWN: this.down = false; break;
+                case KeyEvent.VK_SPACE: this.pkType = false; break;
+            }
+        } 
+        // 玩家2按键释放
+        else if(playerId == 2) {
+            switch(key) {
+                case KeyEvent.VK_A: this.left = false; break;
+                case KeyEvent.VK_W: this.up = false; break;
+                case KeyEvent.VK_D: this.right = false; break;
+                case KeyEvent.VK_S: this.down = false; break;
+                case KeyEvent.VK_F: this.pkType = false; break;
+            }
+        }
+    }
+	
+	
 	
 	@Override
 	public void move(long gametime) {
@@ -117,7 +191,11 @@ public class Play extends ElementObj{
 	}
 	@Override
 	protected void updateImage() {
-		this.setIcon(GameLoad.imgMap.get(fx));
+		String imageKey = this.fx;
+        if(playerId == 2) {
+            imageKey += "2"; // 玩家2使用特殊图片
+        }
+        this.setIcon(GameLoad.imgMap.get(imageKey));
 	}	
 	/**
 	 * 重写规则：1.重写的方法名称、返回值、传入参数序列必须和父类一样
@@ -141,7 +219,10 @@ public class Play extends ElementObj{
 //		将构造对象的多个步骤封装成为一个方法，返回值是对象实体
 //		传递一个固定格式 {x:3,y:5,f:up} json格式
 		ElementObj obj=GameLoad.getObj("file");
-		ElementObj element =obj.creatElement(this.toString());
+		PlayFile element =(PlayFile)obj.creatElement(this.toString());
+		
+		element.setPlayerId(this.playerId);//子弹设置所属玩家
+		
 //		装入到集合中
 		ElementManager.getManager().addElement(element, GameElement.PLAYFILE);
 //		如果要控制子弹速度等等，还需要代码编写
@@ -185,6 +266,7 @@ public class Play extends ElementObj{
 			this.setLive(false);
 		}
 	}
+
 }
 
 

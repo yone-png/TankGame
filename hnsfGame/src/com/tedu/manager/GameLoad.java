@@ -97,13 +97,20 @@ public class GameLoad {
 	 */
 	public static void loadPlay() {
 		loadObj();
-		String playStr="500,500,up";
-		ElementObj obj=getObj("play");
-				
-		ElementObj play=obj.creatElement(playStr);
-//		ElementObj play=new Play().creatElement(playStr);
-		em.addElement(play, GameElement.PLAY);
-	}
+		// 玩家1
+        String play1Str = "500,500,up";
+        ElementObj obj1 = getObj("play");
+        Play player1 = (Play)obj1.creatElement(play1Str);
+        player1.setPlayerId(1); // 设置玩家ID
+        em.addElement(player1, GameElement.PLAY);
+        
+        // 玩家2
+        String play2Str = "100,500,up";
+        ElementObj obj2 = getObj("play2");
+        Play player2 = (Play)obj2.creatElement(play2Str);
+        player2.setPlayerId(2); // 设置玩家ID
+        em.addElement(player2, GameElement.PLAY);
+    }
 	//加载敌人npc
 	public static void loadEnemy() {
 		loadObj();
