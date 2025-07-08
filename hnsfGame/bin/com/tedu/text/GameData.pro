@@ -6,3 +6,4 @@ eleft=image/tank/bot/bot_left.png
 edown=image/tank/bot/bot_down.png
 eright=image/tank/bot/bot_right.png
 eup=image/tank/bot/bot_up.png
+die=image/boom/boom.png

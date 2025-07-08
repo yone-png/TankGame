@@ -50,13 +50,12 @@ public class Enemy extends ElementObj{
 		return this;
 	}
 	
-//	@Override
-//	public void die() {
-//		ElementManager em=ElementManager.getManager();
-//		ImageIcon icon=new ImageIcon("image/tank/play2/player2_up.png");
-//		ElementObj obj=new Enemy();//实例化对象
-//		em.addElement(obj,GameElement.DIE);//直接添加
-//	}
+	@Override
+	public void die() {
+		ElementObj obj=GameLoad.getObj("die");
+		ElementObj element =obj.creatElement(""+this.getX()+","+this.getY()+",die");
+		ElementManager.getManager().addElement(element, GameElement.DIE);
+	}
 		
 	
 		private Random rand = new Random();
